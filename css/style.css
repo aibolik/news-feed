@@ -1,3 +1,6 @@
+.source a {
+  transition: all .3s; }
+
 .news-item {
   display: flex;
   margin: 0 0 16px 0;

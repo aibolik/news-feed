@@ -1,16 +1,39 @@
 const NEWS_API_HOST = 'https://newsapi.org/v2/';
 const API_KEY = '300ecf7f1d8c4128876d195675a1f16b';
 
-getTopHeadlines = (sourcesList = '', category = 'general') => {
+getTopHeadlines = (sourcesList = '') => {
   let sources = sourcesList.join(',');
-  let url = `${NEWS_API_HOST}top-headlines?apiKey=${API_KEY}&category=${category}&sources=${sources}`;
-  return fetch(url);
+  let url = `${NEWS_API_HOST}top-headlines?apiKey=${API_KEY}&sources=${sources}`;
+  fetch(url)
+  .then(res => res.json())
+  .then(news => {
+    let newsDomNodes = createNewsCards(news);
+    let newsListNode = document.getElementById("news-list");
+    for (let node of newsDomNodes) {
+      newsListNode.appendChild(node);
+    }
+
+  })
+  .catch(err => {
+    console.error(err);
+  });
 }
 
-//2017-11-26T08:37:11Z
 getHumanReadableTime = (timeString) => {
   let date = new Date(timeString);
   return date.toDateString();
+}
+
+handleSourceClick = (e) => {
+  let target = e.target.parentNode;
+  let dataSource = target.getAttribute('data-source');
+  document.querySelector('.source.is-active').classList.remove('is-active');
+  target.classList.add('is-active');
+  let newsListNode = document.getElementById("news-list");
+  while(newsListNode.hasChildNodes()) {
+    newsListNode.removeChild(newsListNode.lastChild);
+  }
+  getTopHeadlines([dataSource]);
 }
 
 createNewsCard = ({
@@ -48,16 +71,9 @@ createNewsCards = news => {
   return news.articles.map(newsItem => createNewsCard(newsItem));
 }
 
-getTopHeadlines(['abc-news-au'])
-  .then(res => res.json())
-  .then(news => {
-    let newsDomNodes = createNewsCards(news);
-    let newsListNode = document.getElementById("news-list");
-    for (let node of newsDomNodes) {
-      newsListNode.appendChild(node);
-    }
+let sourceLinks = document.getElementsByClassName('source');
+Array.from(sourceLinks).forEach(element => {
+  element.addEventListener('click', handleSourceClick);
+});
 
-  })
-  .catch(err => {
-    console.error(err);
-  });
+getTopHeadlines(['abc-news-au']);
