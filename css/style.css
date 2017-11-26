@@ -1,0 +1,23 @@
+.news-item {
+  display: flex;
+  margin: 0 0 16px 0;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12); }
+  .news-item .content {
+    flex: 1;
+    padding: 0 16px; }
+    .news-item .content .title {
+      display: block;
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      color: inherit; }
+      .news-item .content .title:hover {
+        color: #00d1b2; }
+  .news-item__date {
+    font-size: 12px;
+    font-style: italic; }
+  .news-item__source {
+    font-size: 14px;
+    font-style: italic; }
+
+/*# sourceMappingURL=style.css.map */
