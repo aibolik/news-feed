@@ -1,7 +1,45 @@
 const NEWS_API_HOST = 'https://newsapi.org/v2/';
 const API_KEY = '300ecf7f1d8c4128876d195675a1f16b';
 
-getTopHeadlines = (sourcesList = '') => {
+let state = {
+  sources: {}
+}
+
+createSourceItem = ({ id, name, url }) => {
+  state.sources[id] = {
+    id,
+    name,
+    url,
+    selected: false
+  };
+  let element = document.createElement('li');
+  element.classList.add('sources__item');
+  element.setAttribute('data-source', id);
+  element.innerHTML = `${name}`;
+  element.addEventListener('click', handleSourceClick);
+  return element;
+}
+
+createSourcesList = sources => {
+  return sources.sources.slice(0, 10).map(item => createSourceItem(item));
+}
+
+getSourcesList = () => {
+  fetch(`${NEWS_API_HOST}sources?apiKey=${API_KEY}`)
+  .then(res => res.json())
+  .then(sources => {
+    let sourcesList = createSourcesList(sources);
+    let sourcesListNode = document.querySelector('.sources__list');
+    for (let node of sourcesList) {
+      sourcesListNode.appendChild(node);
+    }
+  })
+  .catch(err => {
+    console.error(err);
+  })
+}
+
+getTopHeadlines = (sourcesList = ['google-news']) => {
   let sources = sourcesList.join(',');
   let url = `${NEWS_API_HOST}top-headlines?apiKey=${API_KEY}&sources=${sources}`;
   fetch(url)
@@ -25,15 +63,36 @@ getHumanReadableTime = (timeString) => {
 }
 
 handleSourceClick = (e) => {
-  let target = e.target.parentNode;
+  let target = e.target;
   let dataSource = target.getAttribute('data-source');
-  document.querySelector('.source.is-active').classList.remove('is-active');
-  target.classList.add('is-active');
+  target.classList.toggle('sources__item--active');
+  if (target.classList.contains('sources__item--active')) {
+    state.sources[dataSource].selected = true;
+  } else {
+    state.sources[dataSource].selected = false;
+  }
+  document.querySelector('.sources__btn').classList.add('sources__btn--visible');
+}
+
+applyFilter = (e) => {
+  let sources = [];
+  Object.keys(state.sources).map(key => {
+    if (state.sources[key].selected) {
+      sources.push(state.sources[key].id);
+    }
+  });
+  if (sources.length === 0) {
+    alert('Please, specify at least one source');
+    return;
+  }
   let newsListNode = document.getElementById("news-list");
   while(newsListNode.hasChildNodes()) {
     newsListNode.removeChild(newsListNode.lastChild);
   }
-  getTopHeadlines([dataSource]);
+  getTopHeadlines(sources);
+  e.target.classList.remove('sources__btn--visible');
+  document.querySelector('.sources__list').classList.remove('sources__list--opened');
+  document.querySelector('.sources__title .arrow').classList.remove('arrow--down');
 }
 
 createNewsCard = ({
@@ -71,9 +130,38 @@ createNewsCards = news => {
   return news.articles.map(newsItem => createNewsCard(newsItem));
 }
 
-let sourceLinks = document.getElementsByClassName('source');
-Array.from(sourceLinks).forEach(element => {
-  element.addEventListener('click', handleSourceClick);
+document.querySelector('.sources__btn').addEventListener('click', applyFilter);
+document.querySelector('.sources__title').addEventListener('click', e => {
+  document.querySelector('.sources__list').classList.toggle('sources__list--opened');
+  document.querySelector('.sources__title .arrow').classList.toggle('arrow--down');
 });
 
-getTopHeadlines(['abc-news-au']);
+getSourcesList();
+getTopHeadlines();
+
+
+document.addEventListener('DOMContentLoaded', function () {
+
+  // Get all "navbar-burger" elements
+  var $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+
+  // Check if there are any navbar burgers
+  if ($navbarBurgers.length > 0) {
+
+    // Add a click event on each of them
+    $navbarBurgers.forEach(function ($el) {
+      $el.addEventListener('click', function () {
+
+        // Get the target from the "data-target" attribute
+        var target = $el.dataset.target;
+        var $target = document.getElementById(target);
+
+        // Toggle the class on both the "navbar-burger" and the "navbar-menu"
+        $el.classList.toggle('is-active');
+        $target.classList.toggle('is-active');
+
+      });
+    });
+  }
+
+});

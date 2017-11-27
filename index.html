@@ -11,7 +11,7 @@
 </head>
 
 <body>
-  <div class="tabs is-centered">
+  <!-- <div class="tabs is-centered">
     <ul>
       <li class="source is-active" data-source="abc-news"><a>ABC News</a></li>
       <li class="source" data-source="cbs-news"><a>CBS News</a></li>
@@ -20,14 +20,81 @@
       <li class="source" data-source="daily-mail"><a>Daily Mail</a></li>
       <li class="source" data-source="fox-news"><a>Fox News</a></li>
     </ul>
-  </div>
-  <section class="section">
+  </div> -->
+  <section class="hero is-primary is-medium">
+    <!-- Hero head: will stick at the top -->
+    <div class="hero-head">
+      <nav class="navbar">
+        <div class="container">
+          <div class="navbar-brand">
+            <a class="navbar-item">
+              news<strong>Feed</strong>
+            <!-- <img src="https://bulma.io/images/bulma-type-white.png" alt="Logo"> -->
+          </a>
+            <span class="navbar-burger burger" data-target="navbarMenuHeroA">
+            <span></span>
+            <span></span>
+            <span></span>
+            </span>
+          </div>
+          <div id="navbarMenuHeroA" class="navbar-menu">
+            <div class="navbar-end">
+              <span class="navbar-item">
+              <a class="button is-primary is-inverted" href="https://github.com/aibolik/news-feed" target="_blank">
+                <span class="icon">
+                  <i class="fa fa-github"></i>
+                </span>
+              <span>Source code</span>
+              </a>
+            </span>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </div>
+
+    <!-- Hero content: will be in the middle -->
+    <div class="hero-body">
+      <div class="container has-text-centered">
+        <h1 class="title">
+        News Feed
+      </h1>
+        <h2 class="subtitle">
+        By <a href="https://github.com/aibolik" target="_blank">Aibol Kussain</a>
+      </h2>
+      </div>
+    </div>
+
+    <!-- Hero footer: will stick at the bottom -->
+    <div class="hero-foot">
+      <nav class="tabs">
+        <div class="container">
+          <ul>
+            <li class="is-active"><a>Top Headlines</a></li>
+            <li><a>Everything</a></li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+  </section>
+  <!-- <section class="section">
     <div class="container">
       <h1 class="title">General</h1>
       <h2 class="subtitle">
         General news about anything that is happening in the world.
       </h2>
     </div>
+  </section> -->
+  <section class="section sources">
+    <div class="container">
+      <h4 class="sources__title">Sources list<span class="arrow"></span></h4>
+      <ul class="sources__list">
+        <!-- <li class="sources__item sources__item--active">ABC News</li>
+        <li class="sources__item">CBS News</li> -->
+      </ul>
+      <button class="sources__btn">Apply</button>
+    </div>
+
   </section>
   <section class="section">
     <ul id="news-list"></ul>

@@ -1,12 +1,88 @@
 $link: hsl(171, 100%, 41%);
+$primary: hsl(171, 100%, 41%);
+$primary-dark: #3D998B;
 
-.source a {
-  transition: all .3s;
+.navbar-brand .navbar-item {
+  font-size: 24px;
+}
+
+
+
+.sources {
+  &__title {
+    font-size: 18px;
+
+    @media screen and (max-width: 425px) {
+      .arrow {
+        display: inline;
+      }
+    }
+  }
+
+  &__list {
+    padding: 8px 0;
+    @media screen and (max-width: 425px) {
+      height: 0;
+      padding: 0;
+      overflow: hidden;
+      transition: all 0.3s;
+
+      &--opened {
+        height: auto;
+        padding: 8px 0;
+      }
+    }
+  }
+
+  &__item {
+    display: inline-block;
+    padding: 4px 6px;
+    cursor: pointer;
+    border-radius: 4px;
+    border: 1px solid $primary-dark;
+    transition: all 0.3s;
+    margin: 0 4px 4px 0;
+    @media screen and (max-width: 425px) {
+      display: block;
+    }
+
+    &:hover {
+      color: inherit;
+      background: transparentize($primary-dark, 0.8);
+    }
+
+    &--active {
+      background: $primary-dark;
+      color: #fff;
+    }
+  }
+
+  &__btn {
+    padding: 6px 8px;
+    background: $primary;
+    color: #fff;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s;
+    visibility: hidden;
+    opacity: 0;
+
+    &--visible {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    &:hover {
+      background: $primary-dark;
+    }
+  }
 }
 
 .news-item {
   display: flex;
-  margin: 0 0 16px 0;
+  margin: 0 0 16px;
   padding-bottom: 12px;
   border-bottom: 1px solid rgba(0, 0, 0, .12);
 
@@ -35,7 +111,6 @@ $link: hsl(171, 100%, 41%);
     font-size: 14px;
     font-style: italic;
   }
-
   @media screen and (max-width: 425px) {
     flex-direction: column;
     align-items: center;
@@ -56,5 +131,24 @@ $link: hsl(171, 100%, 41%);
     font-size: 1.5rem;
     font-weight: bold;
     text-transform: uppercase;
+  }
+}
+
+.arrow {
+  display: none;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid black;
+  position: relative;
+  top: 13px;
+  left: 8px;
+  transition: all 0.3s;
+
+  &--down {
+    border-bottom: 5px solid black;
+    border-top: none;
+    top: -13px;
   }
 }
