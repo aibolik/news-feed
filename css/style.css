@@ -1,6 +1,15 @@
 .navbar-brand .navbar-item {
   font-size: 24px; }
 
+.endpoint {
+  padding: 6px 8px;
+  cursor: pointer;
+  transition: all .3s; }
+  .endpoint:hover {
+    font-weight: bold; }
+  .endpoint--active {
+    font-weight: bold; }
+
 .sources__title {
   font-size: 18px; }
   @media screen and (max-width: 425px) {
@@ -47,7 +56,8 @@
   opacity: 0; }
   .sources__btn--visible {
     visibility: visible;
-    opacity: 1; }
+    opacity: 1;
+    margin-bottom: 16px; }
   .sources__btn:hover {
     background: #3D998B; }
 
@@ -56,6 +66,10 @@
   margin: 0 0 16px;
   padding-bottom: 12px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.12); }
+  .news-item img[src=null] {
+    text-indent: -9999px;
+    height: 128px;
+    background: url("../images/no-image.png") no-repeat center; }
   .news-item .content {
     flex: 1;
     padding: 0 16px; }

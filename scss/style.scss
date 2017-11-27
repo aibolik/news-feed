@@ -6,7 +6,19 @@ $primary-dark: #3D998B;
   font-size: 24px;
 }
 
+.endpoint {
+  padding: 6px 8px;
+  cursor: pointer;
+  transition: all .3s;
 
+  &:hover {
+    font-weight: bold;
+  }
+
+  &--active {
+    font-weight: bold;
+  }
+}
 
 .sources {
   &__title {
@@ -72,6 +84,7 @@ $primary-dark: #3D998B;
     &--visible {
       visibility: visible;
       opacity: 1;
+      margin-bottom: 16px;
     }
 
     &:hover {
@@ -85,6 +98,12 @@ $primary-dark: #3D998B;
   margin: 0 0 16px;
   padding-bottom: 12px;
   border-bottom: 1px solid rgba(0, 0, 0, .12);
+
+  img[src=null] {
+    text-indent:-9999px;
+    height: 128px;
+    background: url('../images/no-image.png') no-repeat center;
+  }
 
   .content {
     flex: 1;
