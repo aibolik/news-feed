@@ -88,7 +88,7 @@ createNewsCard = ({
   // element.classList.add('tile', 'is-4', 'is-child', 'box');
   element.innerHTML = `<div class="news-item">
       <figure class="image is-128x128">
-        <img src="${urlToImage}" alt="${title}">
+        <img class="${urlToImage ? '' : 'no-image'}" src="${urlToImage || ''}" alt="${title}">
       </figure>
       <div class="content">
         <a href="${url}" target="_blank" class="title">${title}</a>
