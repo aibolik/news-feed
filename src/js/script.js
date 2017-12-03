@@ -1,3 +1,4 @@
+import 'babel-polyfill';
 import 'whatwg-fetch';
 
 const NEWS_API_HOST = 'https://newsapi.org/v2/';
@@ -90,7 +91,7 @@ let createNewsCard = ({
   let element = document.createElement('li');
   element.innerHTML = `<div class="news-item">
       <figure class="image is-128x128">
-        <img class="${urlToImage ? '' : 'no-image'}" src="${urlToImage || ''}" alt="${title}">
+        <img class="${urlToImage ? '' : 'no-image'}" src="${urlToImage || 'images/no-image.png'}" alt="${title}">
       </figure>
       <div class="content">
         <a href="${url}" target="_blank" class="title">${title}</a>
@@ -170,9 +171,10 @@ document.querySelector('.sources__title').addEventListener('click', e => {
   document.querySelector('.sources__title .arrow').classList.toggle('arrow--down');
 });
 let $endpoints = document.querySelectorAll('.endpoint');
-$endpoints.forEach(element => {
+for (var i = 0; i < $endpoints.length; i++) {
+  var element = $endpoints[i];
   element.addEventListener('click', handleEndpointClick);
-});
+}
 
 // attach click handler for mobile navigation
 
@@ -180,17 +182,16 @@ let $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navb
 
 if ($navbarBurgers.length > 0) {
 
-  $navbarBurgers.forEach(function ($el) {
+  for (var i = 0; i < $navbarBurgers.length; i++) {
+    var $el = $navbarBurgers[i];
     $el.addEventListener('click', function () {
-
-      let target = $el.dataset.target;
+      let target = $el.getAttribute('data-target');
       let $target = document.getElementById(target);
 
       $el.classList.toggle('is-active');
       $target.classList.toggle('is-active');
-
     });
-  });
+  }
 }
 
 // start requests

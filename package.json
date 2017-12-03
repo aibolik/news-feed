@@ -7,15 +7,27 @@
   "author": "Aibol Kussain <aibolikdev@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "build": "browserify src/js/script.js -t babelify --outfile lib/js/bundle.js"
+    "build": "browserify src/js/script.js -t babelify --outfile lib/js/bundle.js",
+    "watch-css": "scss --watch scss:css",
+    "css-autoprefix": "postcss css/style.css --use autoprefixer -o css/output.css"
   },
-  "transform": [["babelify", { "comments": false }]],
+  "transform": [
+    [
+      "babelify",
+      {
+        "comments": false
+      }
+    ]
+  ],
   "devDependencies": {
+    "autoprefixer": "^7.2.0",
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.6.1",
-    "babelify": "^8.0.0"
+    "babelify": "^8.0.0",
+    "postcss-cli": "^4.1.1"
   },
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
     "whatwg-fetch": "^2.0.3"
   }
 }
