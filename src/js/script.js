@@ -1,8 +1,8 @@
+import 'whatwg-fetch';
+
 const NEWS_API_HOST = 'https://newsapi.org/v2/';
 const API_KEY = '300ecf7f1d8c4128876d195675a1f16b';
 const ENDPOINT_TOP_HEADLINE = 'top-headlines';
-
-
 
 let state = {
   endpoint: ENDPOINT_TOP_HEADLINE,
@@ -20,7 +20,7 @@ let state = {
 
 // Requests
 
-getSourcesList = () => {
+let getSourcesList = () => {
   fetch(`${NEWS_API_HOST}sources?apiKey=${API_KEY}`)
   .then(res => res.json())
   .then(sources => {
@@ -35,7 +35,7 @@ getSourcesList = () => {
   })
 }
 
-getNews = (sourcesList = ['google-news'], page = 1) => {
+let getNews = (sourcesList = ['google-news'], page = 1) => {
   if (sourcesList.length === 0) {
     sourcesList = ['google-news'];
   }
@@ -57,7 +57,7 @@ getNews = (sourcesList = ['google-news'], page = 1) => {
 
 // View creators
 
-createSourceItem = ({ id, name, url }) => {
+let createSourceItem = ({ id, name, url }) => {
   state.sources[id] = {
     id,
     name,
@@ -72,11 +72,11 @@ createSourceItem = ({ id, name, url }) => {
   return element;
 }
 
-createSourcesList = sources => {
+let createSourcesList = sources => {
   return sources.sources.slice(0, 10).map(item => createSourceItem(item));
 }
 
-createNewsCard = ({
+let createNewsCard = ({
   source: {
     name
   },
@@ -106,13 +106,13 @@ createNewsCard = ({
   return element;
 }
 
-createNewsCards = news => {
+let createNewsCards = news => {
   return news.articles.map(newsItem => createNewsCard(newsItem));
 }
 
 // Event handlers
 
-handleSourceClick = (e) => {
+let handleSourceClick = (e) => {
   let target = e.target;
   let dataSource = target.getAttribute('data-source');
   target.classList.toggle('sources__item--active');
@@ -124,7 +124,7 @@ handleSourceClick = (e) => {
   document.querySelector('.sources__btn').classList.add('sources__btn--visible');
 }
 
-handleEndpointClick = (e) => {
+let handleEndpointClick = (e) => {
   e.preventDefault();
   document.querySelector('.endpoint.endpoint--active').classList.remove('endpoint--active');
   e.target.classList.add('endpoint--active');
@@ -137,7 +137,7 @@ handleEndpointClick = (e) => {
   getNews(sources);
 }
 
-applyFilter = (e) => {
+let applyFilter = (e) => {
   let sources = state.getSelectedSources();
   if (sources.length === 0) {
     alert('Please, specify at least one source');
@@ -155,7 +155,7 @@ applyFilter = (e) => {
 
 // Utils
 
-getHumanReadableTime = (timeString) => {
+let getHumanReadableTime = (timeString) => {
   let date = new Date(timeString);
   return date.toDateString();
 }
