@@ -18,7 +18,6 @@ let state = {
     return sources;
   }
 }
-
 // Requests
 
 let getSourcesList = () => {
