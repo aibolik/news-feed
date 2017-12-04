@@ -21,6 +21,7 @@ let state = {
 // Requests
 
 let getSourcesList = () => {
+  console.log('Getting sources list');
   fetch(`${NEWS_API_HOST}sources?apiKey=${API_KEY}`)
   .then(res => res.json())
   .then(sources => {
@@ -36,6 +37,7 @@ let getSourcesList = () => {
 }
 
 let getNews = (sourcesList = ['google-news'], page = 1) => {
+  console.log('Getting news');
   if (sourcesList.length === 0) {
     sourcesList = ['google-news'];
   }
@@ -44,6 +46,7 @@ let getNews = (sourcesList = ['google-news'], page = 1) => {
   fetch(url)
   .then(res => res.json())
   .then(news => {
+    console.log('We got news');
     let newsDomNodes = createNewsCards(news);
     let newsListNode = document.getElementById('news-list');
     for (let node of newsDomNodes) {
