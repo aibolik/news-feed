@@ -12,7 +12,7 @@ const paths = {
 };
 
 const extractSass = new ExtractTextPlugin({
-    filename: "[name].[contenthash].css",
+    filename: '[name].[contenthash].css',
     disable: process.env.NODE_ENV === "development"
 });
 
@@ -27,7 +27,10 @@ const config = {
   plugins: [
     new CleanWebpackPlugin([paths.DIST]),
     new HtmlWebpackPlugin({
-      template: path.join(paths.SRC, 'index.html')
+      template: path.join(paths.SRC, 'index.html'),
+      minify: {
+        collapseWhitespace: true
+      }
     }),
     extractSass
   ],
@@ -48,18 +51,34 @@ const config = {
           use: [{
               loader: 'css-loader',
               options: {
-                minimize: true
+                sourceMap: true,
+                minimize: {
+                  autoprefixer: {
+                    add: true,
+                    remove: true,
+                    browsers: ['last 2 versions'],
+                  },
+                  discardComments: {
+                    removeAll : true,
+                  },
+                  discardUnused: false,
+                  mergeIdents: false,
+                  reduceIdents: false,
+                  safe: true,
+                  sourcemap: true,
+                }
               }
             }, {
               loader: 'sass-loader',
               options: {
+                sourceMap: true,
                 includePaths: [paths.SCSS]
               }
           }],
           fallback: 'style-loader'
         })
       },
-      // File loader
+      // URL loader
       {
         test: /\.(png|jpg|gif)$/,
         use: [
