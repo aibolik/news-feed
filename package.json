@@ -10,6 +10,7 @@
     "start": "webpack-dev-server --color --config webpack.dev.js",
     "build": "webpack --config webpack.prod.js",
     "watch-css": "scss --watch scss:css",
+    "publish-site": "cd ../production && rm -f * && cd ../project && webpack --config webpack.prod.js && cd ../production && git add --all && git commit -m 'PUBLISHING' && git push",
     "css-autoprefix": "postcss css/style.css --use autoprefixer -o css/output.css"
   },
   "devDependencies": {

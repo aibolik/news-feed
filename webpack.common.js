@@ -8,7 +8,8 @@ const paths = {
   DIST: path.resolve(__dirname, 'dist'),
   SRC: path.resolve(__dirname, 'src'),
   JS: path.resolve(__dirname, 'src/js'),
-  SCSS: path.resolve(__dirname, 'src/scss')
+  SCSS: path.resolve(__dirname, 'src/scss'),
+  PUBLISH: path.resolve(__dirname, '../production')
 };
 
 const extractSass = new ExtractTextPlugin({
@@ -21,7 +22,7 @@ const config = {
     app: path.join(paths.JS, 'index.js')
   },
   output: {
-    path: paths.DIST,
+    path: paths.PUBLISH,
     filename: '[name].bundle.js',
     chunkFilename: '[name].bundle.js'
   },
