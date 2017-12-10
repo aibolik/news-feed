@@ -1,5 +1,3 @@
-import { getNews } from './requests.js';
-
 export const handleSourceClick = (e, state) => {
   let target = e.target;
   let dataSource = target.getAttribute('data-source');
@@ -14,12 +12,17 @@ export const handleSourceClick = (e, state) => {
 
 export const handleEndpointClick = (e, state) => {
   e.preventDefault();
-  document.querySelector('.endpoint.endpoint--active').classList.remove('endpoint--active');
-  e.target.classList.add('endpoint--active');
+  document.querySelector('.endpoints__item.endpoints__item--active').classList.remove('endpoints__item--active');
+  e.target.classList.add('endpoints__item--active');
   state.endpoint = e.target.getAttribute('data-endpoint');
   let newsListNode = document.getElementById("news-list");
   while(newsListNode.hasChildNodes()) {
     newsListNode.removeChild(newsListNode.lastChild);
   }
-  getNews(state);
+  require.ensure([], (require) => {
+    require('../scss/news.scss');
+    const requests = require('./requests.js');
+    const getNews = requests.getNews;
+    getNews(state);
+  }, null, 'requests');
 }

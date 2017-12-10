@@ -22,7 +22,8 @@ const config = {
   },
   output: {
     path: paths.DIST,
-    filename: '[name].bundle.js'
+    filename: '[name].bundle.js',
+    chunkFilename: '[name].bundle.js'
   },
   plugins: [
     new CleanWebpackPlugin([paths.DIST]),

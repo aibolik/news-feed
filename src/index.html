@@ -54,9 +54,9 @@
     <div class="hero-foot">
       <nav class="tabs">
         <div class="container">
-          <ul>
-            <li class="endpoint endpoint--active" data-endpoint="top-headlines">Top Headlines</li>
-            <li class="endpoint" data-endpoint="everything">Everything</li>
+          <ul class='endpoints endpoints--hidden'>
+            <li class="endpoints__item endpoints__item--active" data-endpoint="top-headlines">Top Headlines</li>
+            <li class="endpoints__item" data-endpoint="everything">Everything</li>
           </ul>
         </div>
       </nav>
@@ -70,7 +70,9 @@
       <button class="sources__btn">Apply</button>
 
       <h3 class="title">News Feed</h3>
-      <ul id="news-list"></ul>
+      <ul id="news-list">
+        <button class='news-list__fetch'>Fetch news</button>
+      </ul>
     </div>
   </section>
 

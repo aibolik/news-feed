@@ -1,8 +1,7 @@
 import 'babel-polyfill';
 import 'whatwg-fetch';
 import '../scss/style.scss';
-import { getSourcesList, getNews } from './requests.js';
-import { handleEndpointClick } from './eventHandlers.js';
+import { handleEndpointClick } from './eventHandlers';
 
 const ENDPOINT_TOP_HEADLINE = 'top-headlines';
 
@@ -30,15 +29,15 @@ let applyFilter = (e) => {
   while(newsListNode.hasChildNodes()) {
     newsListNode.removeChild(newsListNode.lastChild);
   }
-  getNews(state);
+  require.ensure([], (require) => {
+    const requests = require('./requests.js');
+    const getNews = requests.getNews;
+    getNews(state);
+  }, null, 'requests');
   e.target.classList.remove('sources__btn--visible');
   document.querySelector('.sources__list').classList.remove('sources__list--opened');
   document.querySelector('.sources__title .arrow').classList.remove('arrow--down');
 };
-
-// Utils
-
-// Main body
 
 // attaching click handlers
 
@@ -47,13 +46,26 @@ document.querySelector('.sources__title').addEventListener('click', e => {
   document.querySelector('.sources__list').classList.toggle('sources__list--opened');
   document.querySelector('.sources__title .arrow').classList.toggle('arrow--down');
 });
-let $endpoints = document.querySelectorAll('.endpoint');
+let $endpoints = document.querySelectorAll('.endpoints__item');
 for (var i = 0; i < $endpoints.length; i++) {
   var element = $endpoints[i];
   element.addEventListener('click', (e) => {
     handleEndpointClick(e, state);
   });
 }
+
+document.querySelector('.news-list__fetch').addEventListener('click', (e) => {
+  e.target.classList.toggle('news-list__fetch--hidden');
+  require.ensure([], (require) => {
+    require('../scss/news.scss');
+    const requests = require('./requests.js');
+    const getNews = requests.getNews;
+    const getSourcesList = requests.getSourcesList;
+    getNews(state);
+    getSourcesList(state);
+    document.querySelector('.endpoints').classList.remove('endpoints--hidden');
+  }, null, 'requests');
+});
 
 // attach click handler for mobile navigation
 
@@ -72,8 +84,3 @@ if ($navbarBurgers.length > 0) {
     });
   }
 }
-
-// start requests
-
-getSourcesList(state);
-getNews(state);
