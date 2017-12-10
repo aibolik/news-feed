@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 const paths = {
   DIST: path.resolve(__dirname, 'dist'),
@@ -24,10 +25,11 @@ const config = {
     filename: '[name].bundle.js'
   },
   plugins: [
-    new webpack.optimize.UglifyJsPlugin(),
+    new CleanWebpackPlugin([paths.DIST]),
     new HtmlWebpackPlugin({
       template: path.join(paths.SRC, 'index.html')
-    })
+    }),
+    extractSass
   ],
   module: {
     rules: [
@@ -42,16 +44,32 @@ const config = {
       // Loader for SCSS/CSS files
       {
         test: /\.scss$/,
-        use: [{
-          loader: 'style-loader'
-        }, {
-          loader: 'css-loader'
-        }, {
-          loader: 'sass-loader',
-          options: {
-            includePaths: [paths.SCSS]
+        use: extractSass.extract({
+          use: [{
+              loader: 'css-loader',
+              options: {
+                minimize: true
+              }
+            }, {
+              loader: 'sass-loader',
+              options: {
+                includePaths: [paths.SCSS]
+              }
+          }],
+          fallback: 'style-loader'
+        })
+      },
+      // File loader
+      {
+        test: /\.(png|jpg|gif)$/,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 8192
+            }
           }
-        }]
+        ]
       }
     ]
   }
