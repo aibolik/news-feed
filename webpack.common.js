@@ -22,7 +22,7 @@ const config = {
     app: path.join(paths.JS, 'index.js')
   },
   output: {
-    path: paths.PUBLISH,
+    path: paths.DIST,
     filename: '[name].bundle.js',
     chunkFilename: '[name].bundle.js'
   },
