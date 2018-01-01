@@ -21,8 +21,7 @@ export const handleEndpointClick = (e, state) => {
   }
   require.ensure([], (require) => {
     require('../scss/news.scss');
-    const requests = require('./requests.js');
-    const getNews = requests.getNews;
-    getNews(state);
+    const api = require('./requests.js').default.getInstance();
+    api.getNews(state);
   }, null, 'requests');
 }

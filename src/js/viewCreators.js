@@ -1,6 +1,12 @@
 import { getHumanReadableTime } from './utils.js';
 import { handleSourceClick } from './eventHandlers.js';
 
+var sourcesItemPrototype = {
+  render(sources, state) {
+
+  }
+};
+
 const createSourceItem = ({ id, name, url }, state) => {
   state.sources[id] = {
     id,

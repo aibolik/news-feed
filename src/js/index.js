@@ -30,9 +30,8 @@ let applyFilter = (e) => {
     newsListNode.removeChild(newsListNode.lastChild);
   }
   require.ensure([], (require) => {
-    const requests = require('./requests.js');
-    const getNews = requests.getNews;
-    getNews(state);
+    const api = require('./requests.js').default.getInstance();
+    api.getNews(state);
   }, null, 'requests');
   e.target.classList.remove('sources__btn--visible');
   document.querySelector('.sources__list').classList.remove('sources__list--opened');
@@ -58,11 +57,9 @@ document.querySelector('.news-list__fetch').addEventListener('click', (e) => {
   e.target.classList.toggle('news-list__fetch--hidden');
   require.ensure([], (require) => {
     require('../scss/news.scss');
-    const requests = require('./requests.js');
-    const getNews = requests.getNews;
-    const getSourcesList = requests.getSourcesList;
-    getNews(state);
-    getSourcesList(state);
+    const api = require('./requests.js').default.getInstance();
+    api.getNews(state);
+    api.getSourcesList(state);
     document.querySelector('.endpoints').classList.remove('endpoints--hidden');
   }, null, 'requests');
 });
