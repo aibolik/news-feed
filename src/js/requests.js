@@ -1,6 +1,6 @@
 import {
-  createSourcesList,
-  createNewsCards
+  newsCreator,
+  sourceCreator
 } from './viewCreators.js';
 
 export default (function() {
@@ -18,7 +18,7 @@ export default (function() {
         fetch(`${NEWS_API_HOST}sources?apiKey=${API_KEY}`)
           .then(res => res.json())
           .then(sources => {
-            let sourcesList = createSourcesList(sources, state);
+            let sourcesList = sourceCreator.createSourcesList(sources, state);
             let sourcesListNode = document.querySelector('.sources__list');
             for (let node of sourcesList) {
               sourcesListNode.appendChild(node);
@@ -41,7 +41,7 @@ export default (function() {
           .then(res => res.json())
           .then(news => {
             console.log('We got news');
-            let newsDomNodes = createNewsCards(news);
+            let newsDomNodes = newsCreator.createNewsCards(news);
             let newsListNode = document.getElementById('news-list');
             for (let node of newsDomNodes) {
               newsListNode.appendChild(node);
