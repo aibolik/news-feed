@@ -31,6 +31,9 @@ store.subscribe(() => {
   renderer.render();
 });
 
+/*
+  Decorate default store to add helper method
+*/
 store.getSelectedSources = function() {
   let sources = this.getState().sources;
   let sourcesList = [];
