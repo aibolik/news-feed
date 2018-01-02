@@ -1,70 +1,86 @@
 import 'babel-polyfill';
 import 'whatwg-fetch';
 import '../scss/style.scss';
-import { handleEndpointClick } from './eventHandlers';
+import {
+  sourceCreator,
+  newsCreator
+} from './viewCreators.js';
+import {
+  handleEndpointClick,
+  handleApplyFilter
+} from './eventHandlers';
+import {
+  createStore
+} from './redux.js';
+import reducer, {
+  actions
+} from './reducer.js';
+import Renderer from './Renderer.js';
 
-const ENDPOINT_TOP_HEADLINE = 'top-headlines';
+const store = createStore(reducer);
 
-let state = {
-  endpoint: ENDPOINT_TOP_HEADLINE,
-  sources: {},
-  getSelectedSources() {
-    let sources = [];
-    Object.keys(this.sources).map(key => {
-      if (state.sources[key].selected) {
-        sources.push(state.sources[key].id);
-      }
-    });
-    return sources;
-  }
-};
+const renderer = new Renderer(
+  store,
+  document.querySelector('.sources__list'),
+  document.querySelector('#news-list'),
+  sourceCreator,
+  newsCreator
+);
 
-let applyFilter = (e) => {
-  let sources = state.getSelectedSources();
-  if (sources.length === 0) {
-    alert('Please, specify at least one source');
-    return;
-  }
-  let newsListNode = document.getElementById("news-list");
-  while(newsListNode.hasChildNodes()) {
-    newsListNode.removeChild(newsListNode.lastChild);
-  }
-  require.ensure([], (require) => {
-    const api = require('./requests.js').default.getInstance();
-    api.getNews(state);
-  }, null, 'requests');
-  e.target.classList.remove('sources__btn--visible');
-  document.querySelector('.sources__list').classList.remove('sources__list--opened');
-  document.querySelector('.sources__title .arrow').classList.remove('arrow--down');
-};
-
-// attaching click handlers
-
-document.querySelector('.sources__btn').addEventListener('click', applyFilter);
-document.querySelector('.sources__title').addEventListener('click', e => {
-  document.querySelector('.sources__list').classList.toggle('sources__list--opened');
-  document.querySelector('.sources__title .arrow').classList.toggle('arrow--down');
+store.subscribe(() => {
+  renderer.render();
 });
+
+store.getSelectedSources = function() {
+  let sources = this.getState().sources;
+  let sourcesList = [];
+  for (let sourceId in sources) {
+    if (sources[sourceId].selected) {
+      sourcesList.push(sourceId);
+    }
+  }
+  return sourcesList;
+};
+
+/*
+  Handler for applying sources filter
+*/
+document.querySelector('.sources__btn').addEventListener('click', e => {
+  handleApplyFilter(e, store);
+});
+
+/*
+  Handler for endpoints
+*/
 let $endpoints = document.querySelectorAll('.endpoints__item');
 for (var i = 0; i < $endpoints.length; i++) {
   var element = $endpoints[i];
   element.addEventListener('click', (e) => {
-    handleEndpointClick(e, state);
+    handleEndpointClick(e, store);
   });
 }
 
+/*
+  Handler for initial loading of items
+*/
 document.querySelector('.news-list__fetch').addEventListener('click', (e) => {
   e.target.classList.toggle('news-list__fetch--hidden');
   require.ensure([], (require) => {
     require('../scss/news.scss');
     const api = require('./requests.js').default.getInstance();
-    api.getNews(state);
-    api.getSourcesList(state);
+    api.getNews(store);
+    api.getSourcesList(store);
     document.querySelector('.endpoints').classList.remove('endpoints--hidden');
   }, null, 'requests');
 });
 
-// attach click handler for mobile navigation
+/*
+ Setup for responsive dropdown and mobile navigation burger
+*/
+document.querySelector('.sources__title').addEventListener('click', e => {
+  document.querySelector('.sources__list').classList.toggle('sources__list--opened');
+  document.querySelector('.sources__title .arrow').classList.toggle('arrow--down');
+});
 
 let $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
 
@@ -72,7 +88,7 @@ if ($navbarBurgers.length > 0) {
 
   for (var i = 0; i < $navbarBurgers.length; i++) {
     var $el = $navbarBurgers[i];
-    $el.addEventListener('click', function () {
+    $el.addEventListener('click', function() {
       let target = $el.getAttribute('data-target');
       let $target = document.getElementById(target);
 

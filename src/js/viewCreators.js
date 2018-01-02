@@ -7,25 +7,24 @@ const sourceCreatorPrototype = {
   createSourceItem({
     id,
     name,
-    url
-  }, state) {
-    state.sources[id] = {
-      id,
-      name,
-      url,
-      selected: false
-    };
+    url,
+    selected
+  }) {
     let element = document.createElement('li');
     element.classList.add('sources__item');
     element.setAttribute('data-source', id);
     element.innerHTML = `${name}`;
-    element.addEventListener('click', (e) => {
-      handleSourceClick(e, state);
-    });
+    if (selected) {
+      element.classList.add('sources__item--active');
+    }
     return element;
   },
-  createSourcesList(sources, state) {
-    return sources.sources.slice(0, 10).map(item => this.createSourceItem(item, state));
+  createSourcesList(sources) {
+    let sourcesList = [];
+    for (let source in sources) {
+      sourcesList.push(this.createSourceItem(sources[source]));
+    }
+    return sourcesList;
   }
 };
 
@@ -63,7 +62,7 @@ const newsCreatorPrototype = {
     return element;
   },
   createNewsCards(news) {
-    return news.articles.map(newsItem => this.createNewsCard(newsItem));
+    return news.map(newsItem => this.createNewsCard(newsItem));
   }
 };
 

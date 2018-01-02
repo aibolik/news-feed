@@ -1,27 +1,36 @@
-export const handleSourceClick = (e, state) => {
+import { actions } from './reducer.js';
+
+export const handleSourceClick = (e, store) => {
   let target = e.target;
   let dataSource = target.getAttribute('data-source');
-  target.classList.toggle('sources__item--active');
-  if (target.classList.contains('sources__item--active')) {
-    state.sources[dataSource].selected = true;
-  } else {
-    state.sources[dataSource].selected = false;
-  }
+  store.dispatch(actions.toggleSource(dataSource));
   document.querySelector('.sources__btn').classList.add('sources__btn--visible');
 }
 
-export const handleEndpointClick = (e, state) => {
+export const handleEndpointClick = (e, store) => {
   e.preventDefault();
   document.querySelector('.endpoints__item.endpoints__item--active').classList.remove('endpoints__item--active');
   e.target.classList.add('endpoints__item--active');
-  state.endpoint = e.target.getAttribute('data-endpoint');
-  let newsListNode = document.getElementById("news-list");
-  while(newsListNode.hasChildNodes()) {
-    newsListNode.removeChild(newsListNode.lastChild);
-  }
+  let endpoint = e.target.getAttribute('data-endpoint');
+  store.dispatch(actions.changeEndpoint(endpoint));
   require.ensure([], (require) => {
     require('../scss/news.scss');
     const api = require('./requests.js').default.getInstance();
-    api.getNews(state);
+    api.getNews(store);
   }, null, 'requests');
+}
+
+export const handleApplyFilter = (e, store) => {
+  let sources = store.getSelectedSources();
+  if (sources.length === 0) {
+    alert('Please, specify at least one source');
+    return;
+  }
+  require.ensure([], (require) => {
+    const api = require('./requests.js').default.getInstance();
+    api.getNews(store);
+  }, null, 'requests');
+  e.target.classList.remove('sources__btn--visible');
+  document.querySelector('.sources__list').classList.remove('sources__list--opened');
+  document.querySelector('.sources__title .arrow').classList.remove('arrow--down');
 }

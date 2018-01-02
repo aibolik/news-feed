@@ -64,12 +64,7 @@ $primary-dark: #3D998B;
       display: block;
     }
 
-    &:hover {
-      color: inherit;
-      background: transparentize($primary-dark, 0.8);
-    }
-
-    &--active {
+    &:hover, &--active {
       background: $primary-dark;
       color: #fff;
     }
