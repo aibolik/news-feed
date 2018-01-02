@@ -22,7 +22,7 @@ const config = {
     app: path.join(paths.JS, 'index.js')
   },
   output: {
-    path: paths.DIST,
+    path: process.env.NODE_ENV === 'development' ? paths.DIST : paths.PUBLISH,
     filename: '[name].bundle.js',
     chunkFilename: '[name].bundle.js'
   },
