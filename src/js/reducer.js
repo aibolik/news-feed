@@ -33,6 +33,18 @@ export function fetchNews(news) {
   }
 }
 
+export const StoreManager = {
+  commands: {
+    ENDPOINT_CHANGE: changeEndpoint,
+    SOURCES_FETCH: fetchSources,
+    SOURCES_TOGGLE: toggleSource,
+    NEWS_FETCH: fetchNews
+  },
+  execute(command, payload) {
+    return this.commands[command] && this.commands[command](payload);
+  }
+};
+
 export const actions = {
   changeEndpoint,
   fetchSources,

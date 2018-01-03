@@ -1,7 +1,7 @@
 import {
   newsCreator
 } from './viewCreators.js';
-import { actions } from './reducer.js';
+import { StoreManager } from './reducer.js';
 
 export default (function() {
 
@@ -19,7 +19,7 @@ export default (function() {
           .then(res => res.json())
           .then(sources => sources.sources.slice(0, 10))
           .then(sources => {
-            store.dispatch(actions.fetchSources(sources));
+            store.dispatch(StoreManager.execute('SOURCES_FETCH', sources));
           })
           .catch(err => {
             console.error(err);
@@ -39,7 +39,7 @@ export default (function() {
           .then(news => news.articles)
           .then(news => {
             console.log('We got news');
-            store.dispatch(actions.fetchNews(news));
+            store.dispatch(StoreManager.execute('NEWS_FETCH', news));
           })
           .catch(err => {
             console.error(err);

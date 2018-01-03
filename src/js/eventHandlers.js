@@ -1,9 +1,9 @@
-import { actions } from './reducer.js';
+import { StoreManager } from './reducer.js';
 
 export const handleSourceClick = (e, store) => {
   let target = e.target;
   let dataSource = target.getAttribute('data-source');
-  store.dispatch(actions.toggleSource(dataSource));
+  store.dispatch(StoreManager.execute('SOURCES_TOGGLE', dataSource));
   document.querySelector('.sources__btn').classList.add('sources__btn--visible');
 }
 
@@ -12,7 +12,7 @@ export const handleEndpointClick = (e, store) => {
   document.querySelector('.endpoints__item.endpoints__item--active').classList.remove('endpoints__item--active');
   e.target.classList.add('endpoints__item--active');
   let endpoint = e.target.getAttribute('data-endpoint');
-  store.dispatch(actions.changeEndpoint(endpoint));
+  store.dispatch(StoreManager.execute('ENDPOINT_CHANGE', endpoint));
   require.ensure([], (require) => {
     require('../scss/news.scss');
     const api = require('./requests.js').default.getInstance();

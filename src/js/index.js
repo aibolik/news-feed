@@ -12,9 +12,7 @@ import {
 import {
   createStore
 } from './redux.js';
-import reducer, {
-  actions
-} from './reducer.js';
+import reducer from './reducer.js';
 import Renderer from './Renderer.js';
 
 const store = createStore(reducer);
