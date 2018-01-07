@@ -3,6 +3,7 @@ import {
 } from './viewCreators.js';
 import { StoreManager } from './reducer.js';
 
+// Implementation of Singleton Creational pattern
 export default (function() {
 
   let instance;

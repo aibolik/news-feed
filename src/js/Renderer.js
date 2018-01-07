@@ -5,8 +5,24 @@ export default class Renderer {
     this.store = store;
     this.sourcesContainer = sourcesContainer;
     this.newsContainer = newsContainer;
-    this.sourceCreator = sourceCreator;
+  }
+
+  /*
+  * Implementation of Strategy behavioral pattern.
+  * We set Strategy that creates news. We can set different
+  * strategies to get different results.
+  */
+  setNewsCreator(newsCreator) {
     this.newsCreator = newsCreator;
+  }
+
+  /*
+  * Implementation of Strategy behavioral pattern.
+  * We set Strategy that creates sources. We can set different
+  * strategies to get different results.
+  */
+  setSourceCreator(sourceCreator) {
+    this.sourceCreator = sourceCreator;
   }
 
   clearSources() {

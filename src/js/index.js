@@ -25,6 +25,14 @@ const renderer = new Renderer(
   newsCreator
 );
 
+/*
+* Implementation of Strategy behavioral pattern.
+* We set Strategy that creates news. We can set different
+* strategies to get different results.
+*/
+renderer.setNewsCreator(newsCreator);
+renderer.setSourceCreator(sourceCreator);
+
 store.subscribe(() => {
   renderer.render();
 });

@@ -33,6 +33,7 @@ export function fetchNews(news) {
   }
 }
 
+// Implementation of Command Behavioral pattern
 export const StoreManager = {
   commands: {
     ENDPOINT_CHANGE: changeEndpoint,

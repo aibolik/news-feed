@@ -3,6 +3,7 @@ import {
 } from './utils.js';
 import { handleSourceClick } from './eventHandlers.js';
 
+// Prototype pattern
 const sourceCreatorPrototype = {
   createSourceItem({
     id,
