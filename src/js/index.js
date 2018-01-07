@@ -11,7 +11,7 @@ import {
 } from './eventHandlers';
 import {
   createStore
-} from './redux.js';
+} from './libs/redux.js';
 import reducer from './reducer.js';
 import Renderer from './Renderer.js';
 

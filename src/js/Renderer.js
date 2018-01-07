@@ -50,9 +50,14 @@ export default class Renderer {
     for(let newsItem of newsList) {
       this.newsContainer.appendChild(newsItem);
     }
-
   }
 
+  /**
+   * I am not sure, but I think it can be treated as
+   * an implemetation of Facade structural pattern.
+   * This method is interface that does everything,
+   * there is a more complex code, behind it.
+   */
   render() {
     this.renderSources();
     this.renderNews();
